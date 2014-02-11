@@ -6,26 +6,26 @@
     PROJECT(${EXECUTABLE_NAME})
     cmake_minimum_required(VERSION 2.8)
 
-    set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+    set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake "/usr/local/share/yarp/cmake")
 	#include(teh-build)
 	#teh_find_local_libraries()
+	find_package(ACE)
     find_package(YARP)
 
-    include_directories(${YARP_INCLUDE_DIRS})
-
+    include_directories(${YARP_INCLUDE_DIRS} ) 
    #Add source files here
     set( LIBRARY1_SOURCES
-		RunReadWrite.cpp
-#        main.cpp      #<---- Change me!
+#		RunReadWrite.cpp
+        main.cpp      #<---- Change me!
     )
 
     add_executable(${EXECUTABLE_NAME} ${LIBRARY1_SOURCES} )
 
     set( LIBRARIES
-		${comanMath_LIBRARIES} #<---- this is our demo library found by find_package()
+		${ACE_LIBRARIES} #<---- this is our demo library found by find_package()
     )
 
-    target_link_libraries(${EXECUTABLE_NAME} ${LIBRARIES} ${YARP_LIBRARIES}) 
+    target_link_libraries(${EXECUTABLE_NAME} ${LIBRARIES} ${YARP_LIBRARIES} readline) 
 # Install 
 
     install(TARGETS ${EXECUTABLE_NAME} DESTINATION bin)
