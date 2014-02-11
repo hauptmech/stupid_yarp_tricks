@@ -150,7 +150,10 @@ int main(int ntargets, char *targets[]) {
     Network yarp;
     Port port;
 
-    read_history(".yarp_write_history");
+    string hist_file(getenv("HOME") );
+    hist_file += "/.yarp_write_history";
+
+    read_history(hist_file.c_str());
     if (companion_active_port==NULL) {
         companion_install_handler();
     }
@@ -203,8 +206,7 @@ int main(int ntargets, char *targets[]) {
         }
     }
 
-    history_truncate_file(".yarp_write_history");
-    write_history(".yarp_write_history");
+    write_history(hist_file.c_str());
     companion_active_port = NULL;
 
     if (!raw) {
