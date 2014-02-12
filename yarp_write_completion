@@ -1,0 +1,32 @@
+#!/bin/sh
+### call "yarp name list" and extract all available ports
+_get_yarp_ports() {
+    echo $(yarp name list 2>/dev/null | grep registration | awk '{print $3 }'| grep ^\/ )
+}
+
+_yarp_write()
+{
+  local cur prev active cmds
+
+	COMPREPLY=()
+	cur=${COMP_WORDS[COMP_CWORD]}
+	prev=${COMP_WORDS[COMP_CWORD-1]}
+
+	cmds='...'
+
+	case "$prev" in
+		...)
+			local all=$(_get_yarp_ports)
+			COMPREPLY=($(compgen -W "${all}" -- $cur) )
+			return 0
+	;;
+		*)
+	;;
+	esac
+	COMPREPLY=($(compgen -W "${cmds}" -- $cur) )
+	return 0
+
+
+}
+
+complete -F _yarp_write yarp_write

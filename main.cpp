@@ -171,10 +171,10 @@ int main(int ntargets, char *targets[]) {
         port.setAdminMode();
     }
 
-    bool raw = true;
+    bool raw = false;
     for (int i=0; i<ntargets; i++) {
         if (string(targets[i])=="verbatim") {
-            raw = false;
+            raw = true;
         } else {
             if (!yarp.connect(port.getName().c_str(),targets[i])) {
 			   printf("\nCould not connect ports\n");	
@@ -195,7 +195,7 @@ int main(int ntargets, char *targets[]) {
                 break;  // for example, horrible windows ^D
             }
             Bottle bot;
-            if (!raw) {
+            if (raw) {
                 bot.addInt(0);
                 bot.addString(txt.c_str());
             } else {
@@ -209,7 +209,7 @@ int main(int ntargets, char *targets[]) {
     write_history(hist_file.c_str());
     companion_active_port = NULL;
 
-    if (!raw) {
+    if (raw) {
         Bottle bot;
         bot.addInt(1);
         bot.addString("<EOF>");

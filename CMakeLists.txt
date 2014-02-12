@@ -23,8 +23,14 @@
     )
 
     target_link_libraries(${EXECUTABLE_NAME} ${LIBRARIES} ${YARP_LIBRARIES} readline) 
+
+# Bottle debugger
+    add_executable(reader read.cpp )
+    target_link_libraries(reader ${LIBRARIES} ${YARP_LIBRARIES} readline) 
 # Install 
 
     install(TARGETS ${EXECUTABLE_NAME} DESTINATION bin)
+
+	install(FILES yarp_write_completion DESTINATION /etc/bash_completion.d)
 
 
